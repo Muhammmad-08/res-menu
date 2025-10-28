@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Slider — полный кадр на любом телефоне</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="menu-slider" aria-label="Фото слайдер">
+    <div class="slides" id="slides">
+      <!-- Пример слайдов: замените src на реальные пути к вашим фото -->
+      <div class="slide"><img class="slide-img" src="images/photo1.jpg" alt=""></div>
+      <div class="slide"><img class="slide-img" src="images/photo2.jpg" alt=""></div>
+      <div class="slide"><img class="slide-img" src="images/photo3.jpg" alt=""></div>
+      <!-- Добавьте столько слайдов, сколько нужно -->
+    </div>
+
+    <button class="edge-btn left" id="prev" aria-label="Предыдущий">
+      <!-- простая стрелка (SVG) -->
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+
+    <button class="edge-btn right" id="next" aria-label="Следующий">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+
+    <div class="dots" id="dots" aria-hidden="false"></div>
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>
