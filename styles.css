@@ -5,6 +5,7 @@
   --edge-hover: rgba(0,0,0,0.52);
   --transition: 350ms ease;
   --dot-size:8px;
+  --edge-offset: 0px; /* отступ от нижнего/бокового края — 0 = прямо в углу */
 }
 
 *{box-sizing:border-box}
@@ -42,6 +43,7 @@ html,body{height:100%;margin:0;background:var(--bg);font-family:system-ui,-apple
   user-select:none;
   -webkit-user-drag:none;
   pointer-events:none; /* чтобы клики доходили до зон */
+  position: relative; /* позволяет точнее позиционировать кнопки внутри слайда при необходимости */
 }
 
 /* Изображение внутри слайда — показываем полностью (без обрезки) */
@@ -57,29 +59,29 @@ html,body{height:100%;margin:0;background:var(--bg);font-family:system-ui,-apple
 }
 
 /* Полупрозрачные зоны по краям */
-/* Изменено: убраны top:0/bottom:0, кнопки центрированы по вертикали и имеют ограниченную высоту */
+/* Кнопки теперь привязаны к нижним углам — bottom + left/right */
 .edge-btn{
   position:absolute;
-  top:50%;
-  transform:translateY(-50%);
+  bottom: var(--edge-offset);
   width:var(--edge-width);
   min-height:64px; /* можно увеличить/уменьшить по вкусу */
   padding:10px;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:linear-gradient(to center, var(--edge-color), transparent 40%);
+  background:linear-gradient(to top, var(--edge-color), transparent 40%);
   border:0;
   cursor:pointer;
   color:#fff;
   transition:background 160ms ease, color 160ms ease;
   outline:none;
   z-index:5;
+  transform:none;
 }
 
-/* Левая и правая зона имеют зеркальное направление градиента */
-.edge-btn.left{ left:0; background:linear-gradient(to right, var(--edge-color), transparent 40%); }
-.edge-btn.right{ right:0; background:linear-gradient(to left, var(--edge-color), transparent 40%); }
+/* Левая и правая зона — приклеены к нижним левому/правому углам; градиенты зеркально направлены внутрь */
+.edge-btn.left{ left: var(--edge-offset); background:linear-gradient(135deg, var(--edge-color), transparent 40%); }
+.edge-btn.right{ right: var(--edge-offset); background:linear-gradient(225deg, var(--edge-color), transparent 40%); }
 
 .edge-btn svg{
   background: rgba(0,0,0,0.25);
@@ -90,7 +92,7 @@ html,body{height:100%;margin:0;background:var(--bg);font-family:system-ui,-apple
 
 /* Состояния наведения и фокуса */
 .edge-btn:hover, .edge-btn:focus{
-  background:linear-gradient(to center, var(--edge-hover), transparent 40%);
+  background:linear-gradient(to top, var(--edge-hover), transparent 40%);
 }
 .edge-btn:hover svg, .edge-btn:focus svg{
   transform:scale(1.06);
@@ -98,7 +100,7 @@ html,body{height:100%;margin:0;background:var(--bg);font-family:system-ui,-apple
 }
 
 @media (max-width:700px){
-  :root{ --edge-width:26vw; }
+  :root{ --edge-width:26vw; --edge-offset: 6px; }
   .edge-btn{ min-height:56px; padding:8px; } /* меньше на мобильных */
   .edge-btn svg{ width:48px; height:48px; padding:8px; }
 }
