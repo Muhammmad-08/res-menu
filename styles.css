@@ -1,0 +1,127 @@
+:root{
+  --bg:#000;
+  --edge-width:16vw;
+  --edge-color: rgba(0,0,0,0.32);
+  --edge-hover: rgba(0,0,0,0.52);
+  --transition: 350ms ease;
+  --dot-size:8px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+.menu-slider{
+  position:relative;
+  height:100vh;
+  width:100%;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: var(--bg);
+}
+
+/* Контейнер слайдов — все фотографии располагаются в ряд */
+.slides{
+  height:100%;
+  width:100%;
+  display:flex;
+  transition:transform var(--transition);
+  will-change:transform;
+  align-items:center; /* центрируем слайды по вертикали */
+  touch-action:pan-y;
+}
+
+/* Каждый слайд — flex-элемент фиксированной ширины (100% просмотра) */
+.slide{
+  flex: 0 0 100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--bg);
+  user-select:none;
+  -webkit-user-drag:none;
+  pointer-events:none; /* чтобы клики доходили до зон */
+}
+
+/* Изображение внутри слайда — показываем полностью (без обрезки) */
+.slide-img{
+  max-width:100%;
+  max-height:100%;
+  width:auto;
+  height:auto;
+  object-fit:contain;        /* вся картинка видна */
+  object-position:center center;
+  display:block;
+  pointer-events:none;
+}
+
+/* Полупрозрачные зоны по краям */
+/* Изменено: убраны top:0/bottom:0, кнопки центрированы по вертикали и имеют ограниченную высоту */
+.edge-btn{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:var(--edge-width);
+  min-height:64px; /* можно увеличить/уменьшить по вкусу */
+  padding:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(to center, var(--edge-color), transparent 40%);
+  border:0;
+  cursor:pointer;
+  color:#fff;
+  transition:background 160ms ease, color 160ms ease;
+  outline:none;
+  z-index:5;
+}
+
+/* Левая и правая зона имеют зеркальное направление градиента */
+.edge-btn.left{ left:0; background:linear-gradient(to right, var(--edge-color), transparent 40%); }
+.edge-btn.right{ right:0; background:linear-gradient(to left, var(--edge-color), transparent 40%); }
+
+.edge-btn svg{
+  background: rgba(0,0,0,0.25);
+  border-radius:999px;
+  padding:6px;
+  transition:transform 160ms ease, background 160ms ease;
+}
+
+/* Состояния наведения и фокуса */
+.edge-btn:hover, .edge-btn:focus{
+  background:linear-gradient(to center, var(--edge-hover), transparent 40%);
+}
+.edge-btn:hover svg, .edge-btn:focus svg{
+  transform:scale(1.06);
+  background: rgba(0,0,0,0.38);
+}
+
+@media (max-width:700px){
+  :root{ --edge-width:26vw; }
+  .edge-btn{ min-height:56px; padding:8px; } /* меньше на мобильных */
+  .edge-btn svg{ width:48px; height:48px; padding:8px; }
+}
+
+/* Точки-индикация */
+.dots{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:18px;
+  display:flex;
+  gap:8px;
+  z-index:10;
+}
+.dots button{
+  width:var(--dot-size);
+  height:var(--dot-size);
+  border-radius:50%;
+  border:0;
+  background:rgba(255,255,255,0.28);
+  padding:0;
+  cursor:pointer;
+}
+.dots button.active{ background:rgba(255,255,255,0.9); }
+
+/* Скрыть UI, если хотите только фото */
